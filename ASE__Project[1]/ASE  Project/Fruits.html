@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruits - Dhanashri Produce Market</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://media.istockphoto.com/id/1342851017/vector/elegant-black-background-vector-illustration-with-vintage-distressed-grunge-texture-and-dark.jpg?s=612x612&w=0&k=20&c=THEu64UKfhNsnXuVWOHsQehRr7uuKWjbYrshHoTFsS0=') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #d3d3d3;
+        }
+
+        header {
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        body.dark-mode header {
+            background: linear-gradient(90deg, #1b5e20, #003d00);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input {
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .search-bar button {
+            border-radius: 20px;
+        }
+
+        .dark-mode-btn {
+            border-radius: 20px;
+        }
+
+        .cart-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            margin-left: 15px;
+        }
+
+        body.dark-mode .cart-icon {
+            color: #d3d3d3;
+        }
+
+        .cart-icon.sparkle {
+            animation: sparkle 1s ease-in-out;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 10px white; }
+        }
+
+        nav {
+            margin-left: 20px;
+        }
+
+        .nav-item {
+            margin-right: 15px;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 0.9rem; /* Reduced for single-line nav */
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .nav-link {
+            color: #d3d3d3 !important;
+        }
+
+        .nav-link:hover {
+            color: #ff9f00 !important;
+        }
+
+        .content {
+            margin: 80px auto 20px;
+            text-align: center;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .fruit-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, background-color 0.3s;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .fruit-card {
+            background: #2c2c2c;
+        }
+
+        .fruit-card:hover {
+            transform: scale(1.05);
+        }
+
+        .fruit-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .fruit-card-body {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .fruit-card-body h5 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        body.dark-mode .fruit-card-body h5 {
+            color: #d3d3d3;
+        }
+
+        .fruit-card-body p {
+            font-size: 0.9rem;
+            margin-bottom: 35px;
+            color: #000000;
+        }
+
+        body.dark-mode .fruit-card-body p {
+            color: #d3d3d3;
+        }
+
+        .add-to-cart {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .add-to-cart:hover {
+            background-color: rgba(0, 100, 0, 0.9);
+        }
+
+        footer {
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode footer {
+            background-color: #1b5e20;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: right 0.3s ease-in-out, background-color 0.3s;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .cart-sidebar {
+            background: #2c2c2c;
+            color: #d3d3d3;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-sidebar h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode .cart-sidebar h4 {
+            color: #d3d3d3;
+            border-bottom: 1px solid #555;
+        }
+
+        .cart-sidebar .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        body.dark-mode .cart-sidebar .cart-item {
+            border-bottom: 1px solid #555;
+        }
+
+        .cart-sidebar .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .cart-sidebar .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-sidebar .cart-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .cart-sidebar .cart-total {
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 16px;
+            color: #111;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .cart-sidebar .cart-total {
+            color: #d3d3d3;
+        }
+
+        .cart-sidebar .btn-proceed {
+            background-color: #ff9f00;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cart-sidebar .btn-proceed:hover {
+            background-color: #e68a00;
+        }
+
+        .cart-sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .cart-sidebar .close-btn {
+            color: #d3d3d3;
+        }
+
+        .cart-sidebar .btn-remove {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cart-sidebar .btn-remove:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <h1>Fruits</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="vegetables.html">Vegetables</a></li> <!-- Added Vegetables link -->
+                    <li class="nav-item"><a class="nav-link text-white" href="home.html#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="home.html#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="login.html">Login</a></li> <!-- Added Login link -->
+                </ul>
+            </nav>
+            <div class="d-flex align-items-center">
+                <div class="search-bar d-flex me-3">
+                    <input type="text" class="form-control me-2" placeholder="Search products...">
+                    <button class="btn btn-warning" onclick="searchProducts()">Search</button>
+                </div>
+                <button class="btn btn-light dark-mode-btn me-2" onclick="toggleDarkMode()">Dark Mode</button>
+                <i class="fa fa-shopping-cart cart-icon" onclick="showCartSidebar()"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="content">
+        <h1>Explore Our Fruits Collection</h1>
+        <p style="color:white">Discover a wide range of fresh and delicious fruits.</p>
+
+        <div class="container">
+            <div class="row">
+                <!-- Fruit Cards -->
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card" data-price="150">
+                        <img src="https://media.istockphoto.com/id/183422512/photo/fresh-red-apples-on-white-background.jpg?s=612x612&w=0&k=20&c=OmfmcQLh3mwp4pFVQn9Sr2U8VCyIgGtV6fuaDmd3Yrk="
+                            alt="Apple">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Apple</h5>
+                            <p class="card-text">Price: ₹150/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card" data-price="50">
+                        <img src="https://nutritionsource.hsph.harvard.edu/wp-content/uploads/2018/08/bananas-1354785_1920.jpg"
+                            alt="Banana">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Banana</h5>
+                            <p class="card-text">Price: ₹50/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card" data-price="200">
+                        <img src="https://vegetablewale.in/wp-content/uploads/2024/07/mango7.jpg" alt="Mango">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Mango</h5>
+                            <p class="card-text">Price: ₹200/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card" data-price="80">
+                        <img src="https://www.rd.com/wp-content/uploads/2017/12/01_oranges_Finally%E2%80%94Here%E2%80%99s-Which-%E2%80%9COrange%E2%80%9D-Came-First-the-Color-or-the-Fruit_691064353_Lucky-Business.jpg"
+                            alt="Orange">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Orange</h5>
+                            <p class="card-text">Price: ₹80/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more fruits dynamically -->
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card" data-price="120">
+                        <img src="https://nativeindianorganics.com/wp-content/uploads/2023/07/green-grapes.jpg"
+                            alt="Grapes">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Grapes</h5>
+                            <p class="card-text">Price: ₹120/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.jiomart.com/images/product/original/590001250/pineapple-1-piece-approx-750-g-1200-g-product-images-o590001250-p590001250-0-202410011654.jpg?im=Resize=(1000,1000)"
+                            alt="Pineapple">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Pineapple</h5>
+                            <p class="card-text">Price: ₹90/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.bigbasket.com/media/uploads/p/l/40023482_9-fresho-watermelon-organically-grown.jpg"
+                            alt="Watermelon">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Watermelon</h5>
+                            <p class="card-text">Price: ₹30/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://media6.ppl-media.com/mediafiles/blogs/strawberry_15e19d39f6.PNG"
+                            alt="Strawberry">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Strawberry</h5>
+                            <p class="card-text">Price: ₹250/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://cdn.pixabay.com/photo/2024/02/26/03/25/papaya-8597048_1280.jpg" alt="Papaya">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Papaya</h5>
+                            <p class="card-text">Price: ₹60/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.health.com/thmb/YjD1m861zN2cGF4q9bbeu6now64=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Kiwi-a2e9888bfab6474f8d12d2ae0287b356.jpg"
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Kiwi</h5>
+                            <p class="card-text">Price: ₹300/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://m.media-amazon.com/images/I/51cRWnGNHbL.AC_UF894,1000_QL80.jpg"
+                            alt="Banana">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">cherry</h5>
+                            <p class="card-text">Price: ₹50/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Rhb7duy8Tl07TqdwJxmay_nkLC-qSmr3MA&s"
+                            alt="Mango">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">coconut</h5>
+                            <p class="card-text">Price: ₹200/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdrtRMa_X6woPv9WH1QrM-ATHWj7YoS6KoPw&s"
+                            alt="Orange">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Pomegranate</h5>
+                            <p class="card-text">Price: ₹80/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more fruits dynamically -->
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.bigbasket.com/media/uploads/p/l/40123767_6-fresho-guava-pink.jpg"
+                            alt="Grapes">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Guava</h5>
+                            <p class="card-text">Price: ₹120/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJKBzFLmU6-S4i3AuK-KJC4ojSP_XaW28OGw&s"
+                            alt="Pineapple">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Chickoo</h5>
+                            <p class="card-text">Price: ₹90/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://img.imageboss.me/fourwinds/width/425/dpr:2/shop/products/shutterstock_116205556bacon_b59ae0a5-6673-4d99-a9ba-ec6ded5ba99c.jpg?v=1729716360"
+                            alt="Watermelon">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Avacado</h5>
+                            <p class="card-text">Price: ₹30/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://plantskingdom.in/cdn/shop/products/WhatsAppImage2022-03-23at3.14.33PM.jpg?v=1648712632"
+                            alt="Strawberry">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Pear</h5>
+                            <p class="card-text">Price: ₹250/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://cdn.prod.website-files.com/62e18da95149ec2ee0d87b5b/659718bcd1c7a044bec0923f_64b5c8fe1509df6af9f0830f_63983fd260b1ea06629ee213_thumbnail.png"
+                            alt="Papaya">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Custard Apple</h5>
+                            <p class="card-text">Price: ₹60/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.fao.org/images/devocoplibraries/ocop-rap/jackfruit.png?sfvrsn=cc2e81a5_1"
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Jackfruit</h5>
+                            <p class="card-text">Price: ₹300/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://m.media-amazon.com/images/I/71Z9-lwXGIL.AC_UF1000,1000_QL80.jpg"
+                            alt="Banana">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Litchi</h5>
+                            <p class="card-text">Price: ₹50/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://5.imimg.com/data5/SELLER/Default/2024/3/404284604/AK/AS/XE/199669632/lemon-500x500.jpg"
+                            alt="Mango">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Lemon</h5>
+                            <p class="card-text">Price: ₹200/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.lukecoutinho.com/wp-content/uploads/2021/12/The-Health-Benefits-of-Amla.jpg"
+                            alt="Orange">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Amla</h5>
+                            <p class="card-text">Price: ₹80/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more fruits dynamically -->
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://zamaorganics.com/cdn/shop/files/Untitleddesign_74_23f1e7cc-ec94-407c-997f-84ef25f9a3b2_11zon.png?v=1701853317&width=1080"
+                            alt="Grapes">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Muskmelon</h5>
+                            <p class="card-text">Price: ₹120/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://rukminim2.flixcart.com/image/850/1000/l1dwknk0/plant-sapling/h/9/s/no-annual-yes-live-star-fruit-carambola-kamrak-or-kamranga-plant-original-imagcyhubdrkfjdj.jpeg?q=20&crop=false"
+                            alt="Pineapple">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Starfruit</h5>
+                            <p class="card-text">Price: ₹90/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVp-6DMIiQv5ljGHkJhioJLubiZ7EeXy4PtQ&s"
+                            alt="Watermelon">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Raspberry</h5>
+                            <p class="card-text">Price: ₹30/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPEz-vlhXu43gCxqNj42kGphNgPV6dhvFZBg&s"
+                            alt="Strawberry">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Lime</h5>
+                            <p class="card-text">Price: ₹250/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.shutterstock.com/shutterstock/photos/1927497314/display_1500/stock-photo-orange-with-cut-in-half-and-green-leaves-isolated-on-white-background-1927497314.jpg"
+                            alt="Papaya">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Sweet Lime</h5>
+                            <p class="card-text">Price: ₹60/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxA0_4wKtGUVB77Z5OkHbPvbr25DRkoLrDF4D9qQPG2ci1quG9WaQWLd-bpz5TkYMU5Io&usqp=CAU"
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Jamunfruit</h5>
+                            <p class="card-text">Price: ₹300/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsGlXNH3V8_ZlRHtyu_yvgD7ohEGSGisNuXA&s"
+                            alt="Banana">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Fig</h5>
+                            <p class="card-text">Price: ₹50/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.allrecipes.com/thmb/0b6D_ZfdVD07bPrM3_0LQmml74Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1147545054-2000-cf62d6b8188846518193157fba8449be.jpg"
+                            alt="Mango">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Tamarind</h5>
+                            <p class="card-text">Price: ₹200/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://www.bigbasket.com/media/uploads/p/l/30009286_12-fresho-blueberry.jpg"
+                            alt="Orange">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Blueberry</h5>
+                            <p class="card-text">Price: ₹80/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more fruits dynamically -->
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://media.post.rvohealth.io/wp-content/uploads/sites/3/2020/02/322548_1100-800x825.jpg"
+                            alt="Grapes">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Date</h5>
+                            <p class="card-text">Price: ₹120/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTykiCamrC1FFU_oc67Q-Wo3Lko9uABc-W8lw&s"
+                            alt="Pineapple">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Peach</h5>
+                            <p class="card-text">Price: ₹90/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://t3.ftcdn.net/jpg/04/63/30/50/360_F_463305057_cxC6gANdimD6YTcah6t20Mw4AHuUwLJD.jpg"
+                            alt="Watermelon">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Muskmelon</h5>
+                            <p class="card-text">Price: ₹30/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://images.squarespace-cdn.com/content/v1/5e208d1c997b324abb13cec1/1581462260271-LEPYBH85BBIH792MG9ET/iStock-157682002.jpg"
+                            alt="Strawberry">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Plum</h5>
+                            <p class="card-text">Price: ₹250/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://hips.hearstapps.com/hmg-prod/images/white-dragon-fruit-royalty-free-image-1594218654.jpg?crop=1.00xw:0.752xh;0,0.221xh&resize=1200:*"
+                            alt="Papaya">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Dragon Fruit</h5>
+                            <p class="card-text">Price: ₹60/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://m.media-amazon.com/images/I/61s6Yp9zKqL.AC_UF1000,1000_QL80.jpg" alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Apricot</h5>
+                            <p class="card-text">Price: ₹300/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRic8ks2GwFHjsBilNymKKFLs4pZexmFgEH3w&s"
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Black Berry</h5>
+                            <p class="card-text">Price: 500/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://media.istockphoto.com/id/1435730496/photo/coconut-juice-and-fresh-young-green-coconut.jpg?s=612x612&w=0&k=20&c=q7mj6zGy_w0QbkwwzfqMh9aVH4Sttcdn3JvOkkq5wWM="
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Tendor Coconut</h5>
+                            <p class="card-text">Price: 500/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="fruit-card">
+                        <img src="https://media.istockphoto.com/id/1081881628/photo/close-up-of-indian-jujube-apple-isolated-on-green-background-shot-in-studio.jpg?s=612x612&w=0&k=20&c=zItmdckSBkPUAYd766-foigOPEAY0-uANcIz60tBQh8="
+                            alt="Kiwi">
+                        <div class="fruit-card-body">
+                            <h5 class="card-title">Jujube</h5>
+                            <p class="card-text">Price: 500/kg</p>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <h4>Your Cart</h4>
+        <div id="cartItems"></div>
+        <p class="cart-total">Total: ₹<span id="cartTotal">0</span></p>
+        <button class="btn-proceed" onclick="proceedToPayment()">Proceed to Pay</button>
+        <i class="fa fa-times close-btn" onclick="hideCartSidebar()"></i>
+    </div>
+
+    <footer>
+        <p>© 2025 Dhanashri Produce Market. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            addToCartButtons.forEach((button, index) => {
+                button.addEventListener('click', () => addToCart(index));
+            });
+            updateCart();
+        });
+
+        function addToCart(index) {
+            const card = document.querySelectorAll('.fruit-card')[index];
+            const name = card.querySelector('.card-title').innerText;
+            const priceText = card.querySelector('.card-text').innerText;
+            const price = priceText === "Price: FREE" ? 0 : parseInt(priceText.match(/\d+/)[0]);
+            const img = card.querySelector('img').src;
+
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1, img });
+            }
+            updateCart();
+
+            alert(`Added ${name} to cart!`);
+            const cartIcon = document.querySelector('.cart-icon');
+            cartIcon.classList.add('sparkle');
+            setTimeout(() => cartIcon.classList.remove('sparkle'), 1000);
+
+            showCartSidebar();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>₹${item.price * item.quantity}</span>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="btn-remove" onclick="removeFromCart('${item.name}')">Remove</button>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = total;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function removeFromCart(name) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity--;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCart();
+        }
+
+        function showCartSidebar() {
+            document.getElementById('cartSidebar').classList.add('active');
+        }
+
+        function hideCartSidebar() {
+            document.getElementById('cartSidebar').classList.remove('active');
+        }
+
+        function proceedToPayment() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+            } else {
+                window.location.href = 'payment.html';
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function searchProducts() {
+            alert('Search functionality is under development.');
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('Service Worker registered with scope:', registration.scope))
+                    .catch(error => console.log('Service Worker registration failed:', error));
+            });
+        }
+    </script>
+</body>
+</html>
