@@ -1,4 +1,4 @@
 # Vegetable_Fruit-Website
-This is the website for local vegetable and fruit vendor 
-Author-Anushka Pathak
+<p>This is the website for local vegetable and fruit vendor</p> 
+<p>Author-Anushka Pathak</p>
 
